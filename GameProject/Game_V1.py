@@ -134,14 +134,17 @@ def equip_item(item_id):
         print(f"↩ Unequipped '{old_item}' from {slot}")
 
 def select_item_in_inv(Items):
+    selected_item = ""
     """This checks the stats of the item you have selected"""
     
-    if item_dict.ITEMS not in inventory:
-        print("You don't have that item")
-    else:
-        item_dict.ITEMS.item_id in inventory
+    if item_dict.ITEMS in inventory:
+        selected_item = item_dict.ITEMS.item_id
         print("What would you like to do with this item?")
         print("equip, drop, inspect")
+    elif not user_input:
+        print("What item do you want?")
+    else:
+        print("You don't have that item")
 
 def display_inv():
     print("Commands: 'select, exit'")
@@ -156,12 +159,13 @@ def Equip_item(item_id):
     if item_id not in inventory:
         print("You have nothing to equip")
     else:
+        print("")
         
 
 
-def update_held_item():
-    """Checks what item is in the player hand and updates the stats as needed"""
-
+#def update_held_item():
+#   """Checks what item is in the player hand and updates the stats as needed"""
+    
 
 # ================SECTION 3================
 # The actual running game
@@ -197,6 +201,8 @@ while game_running:
 
             # allows player to choose an item in inventory
             if command == "select":
+                if not user_input:
+                    print("what item do you want?")
                 if len(user_input) > 1:
                     select_item_in_inv(user_input[1])
                     
