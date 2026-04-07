@@ -17,15 +17,15 @@ current_room = "Town square"
 inv_open = False
 
 print("\n" + "="*50)
-print("    Welcome to the land of ... (name coming soon!)")
-print("    Where you will become a Monster fighter or die.")
+print("    Welcome to Averneth")
+print("    The land of magic and monsters.")
 print("="*50 + "\n")
 
 print("Before you go exploring.... I'll need to know your name.",
       )
 # Ask for name
 while True:
-    char_name = input("What is your character's name? ").strip()
+    char_name = input("What is your character's name?>").strip()
 
     if not char_name:
         print("You have to enter something — even adventurers need names!")
@@ -51,7 +51,7 @@ player.P1 = player.Player(char_name, 100, 1, 0)  # defence=0
 # Main game logic functions
 
 def show_status():
-    """Reports the player's current location and inventory."""
+    """Reports the player's current location and the items in the area."""
     print("\n" + "=" * 30)
     print(f"Location: {current_room}")
     print(f"Description: {world_map[current_room]['description']}")
@@ -76,7 +76,7 @@ def pick_up_item():
     if "item" in room_data and room_data["item"]:
         item = room_data["item"]
         if player.add_to_backpack(item):
-            room_data["item"] = ""          # remove from room
+            room_data["item"] = ""   # remove from room
             print(f"You picked up the {item}!")
         else:
             print("But your backpack is full — you can't carry it.")
@@ -133,18 +133,30 @@ def equip_item(item_id):
         player.backpack.append(old_item)
         print(f"↩ Unequipped '{old_item}' from {slot}")
 
-def inspect_item_in_inv():
+def select_item_in_inv(Items):
     """This checks the stats of the item you have selected"""
-    # check for item type
-    if item_dict.Items in inventory:
-        print(item_dict.Items.item_id)
+    
+    if item_dict.ITEMS not in inventory:
+        print("You don't have that item")
+    else:
+        item_dict.ITEMS.item_id in inventory
+        print("What would you like to do with this item?")
+        print("equip, drop, inspect")
 
 def display_inv():
+    print("Commands: 'select, exit'")
     print("You open your inventory")
     print(f"{player.P1.name} || HP: {player.P1.hp} | DMG: {player.P1.dmg} | DEF: {player.P1.defence}")
     player.show_backpack()
     player.show_equipped()
     input("What do you want to do? ")
+    
+def Equip_item(item_id):
+    """Checks to see if there is anything you can equip"""
+    if item_id not in inventory:
+        print("You have nothing to equip")
+    else:
+        
 
 
 def update_held_item():
@@ -186,9 +198,8 @@ while game_running:
             # allows player to choose an item in inventory
             if command == "select":
                 if len(user_input) > 1:
-                    item_dict.ITEMS
-                    print("What would you like to do with this item?")
-
+                    select_item_in_inv(user_input[1])
+                    
             elif command  == "equip":
                 equip_item(item_dict.ITEMS)
 
@@ -201,12 +212,14 @@ while game_running:
                 print("returning to game")
                 inv_open = False
 
-            # Command to inspect held item in inventory
+            # Command to inspect selected item in inventory
             elif command == "inspect":
-                inspect_item_in_inv()
+                continue
             else:
                 print("That is not a known command")
 
+# ================SECTION 4================
+# The commands that run in the game
 
     # Command Movement
     if command == "go":

@@ -64,11 +64,11 @@ item5 = Consumables("Weak Health Potion", **effect_1)
 
 # all items
 ITEMS = {
-    item1.item_id: item1,  # "basic sword": <melee object>
-    item2.item_id: item2,  # "Iron Greatsword": <melee object>
-    item3.item_id: item3,  # "wooden bow": <ranged weapon>
-    item4.item_id: item4,  # "Torch": <Holdables object>
-    item5.item_id: item5,  # "Health Potion": <Consumables object>
+    item1.item_id,  # "basic sword": <melee object>
+    item2.item_id,  # "Iron Greatsword": <melee object>
+    item3.item_id,  # "wooden bow": <ranged weapon>
+    item4.item_id,  # "Torch": <Holdables object>
+    item5.item_id,  # "Health Potion": <Consumables object>
 # Add more items here as you create them
 }
 
