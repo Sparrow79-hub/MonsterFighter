@@ -1,9 +1,10 @@
-# todo, fix the inventory logic
-# todo, make a working system that can add items to the inventory
+# todo, fix the inventory logic-done
+# todo, make a working system that can add items to the inventory-done
 # todo, get the held item to change the stats of the player
 # todo, add the rest of the map to the game(50%)
 # todo, get a enemy that can spawn during an interaction
 # todo, make a shop interface and logic
+# todo, build the inventory logic so you can use items and select things
 
 import player
 import item_dict
@@ -14,6 +15,7 @@ inventory = player.backpack
 player_inv = player.player_inv
 world_map = world.world_map
 current_room = "Town square"
+selected_item = ""
 inv_open = False
 
 print("\n" + "="*50)
@@ -133,16 +135,13 @@ def equip_item(item_id):
         player.backpack.append(old_item)
         print(f"↩ Unequipped '{old_item}' from {slot}")
 
-def select_item_in_inv(Items):
-    selected_item = ""
-    """This checks the stats of the item you have selected"""
-    
-    if item_dict.ITEMS in inventory:
-        selected_item = item_dict.ITEMS.item_id
+def select_item_in_inv(item_id):
+    global selected_item
+
+    if item_id in inventory:
+        selected_item = inventory[selected_item][item_id]
         print("What would you like to do with this item?")
         print("equip, drop, inspect")
-    elif not user_input:
-        print("What item do you want?")
     else:
         print("You don't have that item")
 
@@ -154,9 +153,9 @@ def display_inv():
     player.show_equipped()
     input("What do you want to do? ")
     
-def Equip_item(item_id):
+def Equip_item(ITEMS):
     """Checks to see if there is anything you can equip"""
-    if item_id not in inventory:
+    if ITEMS not in inventory:
         print("You have nothing to equip")
     else:
         print("")
@@ -201,10 +200,10 @@ while game_running:
 
             # allows player to choose an item in inventory
             if command == "select":
-                if not user_input:
-                    print("what item do you want?")
                 if len(user_input) > 1:
                     select_item_in_inv(user_input[1])
+                else:
+                    print("What would you like to select?")
                     
             elif command  == "equip":
                 equip_item(item_dict.ITEMS)
