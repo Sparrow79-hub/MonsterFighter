@@ -1,7 +1,7 @@
-# todo, fix the inventory logic
-# todo, make a working system that can add items to the inventory
+# todo, fix the inventory logic -done
+# todo, make a working system that can add items to the inventory -done
 # todo, get the held item to change the stats of the player
-# todo, add the rest of the map to the game(50%)
+# todo, add the rest of the map to the game(25%)
 # todo, get a enemy that can spawn during an interaction
 # todo, make a shop interface and logic
 
@@ -17,9 +17,7 @@ current_room = "Town square"
 inv_open = False
 
 print("\n" + "="*50)
-print("    Welcome to the land of ... (name coming soon!)")
-print("    Where you will become a Monster fighter or die.")
-print("="*50 + "\n")
+print("    Welcome to Averneth")
 
 print("Before you go exploring.... I'll need to know your name.",
       )
