@@ -15,7 +15,7 @@ inventory = player.backpack
 player_inv = player.player_inv
 world_map = world.world_map
 current_room = "Town square"
-selected_item = ""
+selected_item = "None"
 inv_open = False
 
 print("\n" + "="*50)
@@ -138,8 +138,9 @@ def equip_item(item_id):
 def select_item_in_inv(item_id):
     global selected_item
 
-    if item_id in inventory:
+    if item_dict.ITEMS in len(inventory)[selected_item]:
         selected_item = inventory[selected_item][item_id]
+        print(f'Selected item {selected_item}')
         print("What would you like to do with this item?")
         print("equip, drop, inspect")
     else:
