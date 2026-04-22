@@ -10,6 +10,7 @@ class Player:
         self.defence = defence
         self.__dict__.update(item_equip)
 
+P1 = Player("", 100, 1, 0)
 
 # makes a backpack for player to use
 backpack = []
@@ -55,7 +56,7 @@ player_inv = {
     "feet": None, # Nothing equipped at start
     }
 
-def equip_item(item_id): #Right now I don't think any of this works so I'm going to rebuild it
+def equip_item(item_id): #Right now I don't think any of this works, so I'm going to rebuild it
     # Check if item is in backpack
     if item_id not in backpack:
         print(f" You do not have {item_id} in your backpack")

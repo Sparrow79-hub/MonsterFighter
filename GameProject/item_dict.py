@@ -56,7 +56,7 @@ effect_1 = {"name": "weak health potion", "hp": 15}
 # all weapons
 item1 = Melee("Basic Sword", 5, 1)
 item2 = Melee("Iron Greatsword", 15, 2, **special_1)
-item3 = Ranged("Wooden Bow", 2, 3)
+item3 = Ranged("Wooden Bow", 2, 1)
 
 # all consumables
 item4 = Holdables("Torch", "A basic wooden torch")

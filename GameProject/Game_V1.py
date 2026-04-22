@@ -47,7 +47,7 @@ while True:
 
 print(f"\nWelcome, brave {char_name}!\n")
 
-player.P1 = player.Player(char_name, 100, 1, 0)  # defence=0
+player.P1 = player.Player(char_name, 100, 1, 0)
 
 # ================SECTION 1================
 # Main game logic functions
