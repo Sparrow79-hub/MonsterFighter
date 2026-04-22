@@ -51,7 +51,7 @@ class Holdables(Items):
 special_1 = {"name": "heavy_slash", "damage": 15}
 
 # all potion effects
-effect_1 = {"name": "weak health potion", "hp": 15}
+effect_1 = {"name": "Lesser heal", "hp": 25}
 
 # all weapons
 item1 = Melee("Basic Sword", 5, 1)
@@ -64,11 +64,11 @@ item5 = Consumables("Weak Health Potion", **effect_1)
 
 # all items
 ITEMS = {
-    "Basic sword": "item1", # <melee object>
-    "Iron Greatsword": "item2",# <melee object>
+    "Basic sword": item1.item_id, # <melee object>
+    "Iron Greatsword": item2,# <melee object>
     "Wooden Bow": item3, #<ranged weapon>
     "Torch": item4,  # <Holdables object>
-    "Health Potion": "item5" # <Consumables object>
+    "Health Potion": item5 # <Consumables object>
 # Add more items here as you create them
 }
 

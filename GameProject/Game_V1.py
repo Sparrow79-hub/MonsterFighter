@@ -137,10 +137,9 @@ def equip_item(item_id):
 
 def select_item_in_inv(item_id):
     global selected_item
-
-    if item_dict.ITEMS in len(inventory)[selected_item]:
+    if item_dict.ITEMS. in inventory():
         selected_item = inventory[selected_item][item_id]
-        print(f'Selected item {selected_item}')
+        print(f'Selected item: {selected_item}')
         print("What would you like to do with this item?")
         print("equip, drop, inspect")
     else:
