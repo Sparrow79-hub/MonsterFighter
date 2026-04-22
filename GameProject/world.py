@@ -21,7 +21,7 @@ world_map = {
     "Library": {
         "description": "Shelves of dusty books reach the ceiling. It's quiet.",
         "south": "Great Hall",
-        "item": "Ancient Scroll"
+        "item": " "
     },
     "Armory": {
         "description": "Racks of rusty swords and shields line the walls.",
@@ -52,8 +52,24 @@ world_map = {
     },
 
     "Whispering meadows": {
-        "description": "An enchanted forest near the town, there might be monsters here",
+        "description": "An enchanted grassland near the town, there might be monsters here",
         "east": "Town square",
+        "west": "Whispering Forest",
         "item": "",
     },
+
+    "Whispering Forest": {
+        "description": "",
+        "east": "Whispering Forest",
+        "north": "Screaming Hills",
+        "item": ""
+    },
+
+    "Screaming Hills": {
+        "description": "",
+        "south": "Whispering Forest",
+        "west": "",
+        "item": ""
+    }
+
 }
