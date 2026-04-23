@@ -1,4 +1,4 @@
-# todo, fix the inventory logic-done
+# todo, fix the inventory logic
 # todo, make a working system that can add items to the inventory-done
 # todo, get the held item to change the stats of the player
 # todo, add the rest of the map to the game(50%)
@@ -87,11 +87,13 @@ def pick_up_item():
 
 
 def player_swing():
-    """allows the player the attack the space in front of them"""
+    """allows the player the attack the space in front of them if combat is initiated"""
 
 
 def change_player_stats():
     """Makes outside input to change the state of the player"""
+    if item_dict.ITEMS in inventory:
+        change_player_stats()
 
 
 def player_has_died():
@@ -137,7 +139,7 @@ def equip_item(item_id):
 
 def select_item_in_inv(item_id):
     global selected_item
-    if item_dict.ITEMS. in inventory():
+    if item_dict.ITEMS in inventory():
         selected_item = inventory[selected_item][item_id]
         print(f'Selected item: {selected_item}')
         print("What would you like to do with this item?")
