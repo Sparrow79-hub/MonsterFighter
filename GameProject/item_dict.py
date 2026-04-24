@@ -66,11 +66,10 @@ item5 = Consumables("Weak Health Potion", **effect_1)
 ITEMS = {
     "Basic sword": item1, # <melee object>
     "Iron Greatsword": item2,# <melee object>
-    "Wooden Bow": item3, #<ranged weapon>
+    "Wooden Bow": item3, # <ranged weapon>
     "Torch": item4,  # <Holdables object>
     "Health Potion": item5 # <Consumables object>
-# Add more items here as you create them
-}
+    }
 
 def get_item(item_name):
     """Look up an item by its name. Returns the item object or None."""

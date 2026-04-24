@@ -77,6 +77,6 @@ world_map = {
 test_map = {
     "Testing place":{
         "description": "Test place",
-        "item": item_dict.ITEMS
+        "item": item_dict.item1.item_id #change this to whatever you need to
     }
 }
