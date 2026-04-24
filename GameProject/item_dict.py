@@ -64,7 +64,7 @@ item5 = Consumables("Weak Health Potion", **effect_1)
 
 # all items
 ITEMS = {
-    "Basic sword": item1.item_id, # <melee object>
+    "Basic sword": item1, # <melee object>
     "Iron Greatsword": item2,# <melee object>
     "Wooden Bow": item3, #<ranged weapon>
     "Torch": item4,  # <Holdables object>
@@ -72,8 +72,25 @@ ITEMS = {
 # Add more items here as you create them
 }
 
+# FIXED: Made ITEMS dict always map name → full item object
+# and improved get_item() to handle capitalization.
+# This was causing most "item not found" and weird <object> prints.
 def get_item(item_name):
     """Look up an item by its name. Returns the item object or None."""
-    return ITEMS.get(item_name, None)
+    if not item_name:
+        return None
+    item_name = item_name.strip()
+    #try exact match first
+    if item_name in ITEMS:
+        return ITEMS[item_name]
+    #try lower case
+    title_name = item_name.title()
+    if title_name in ITEMS:
+        return ITEMS[title_name]
+    #case-insensitive backup
+    for k, v in ITEMS.items():
+        if k.lower() == title_name.lower():
+            return v
+    return None
 
 

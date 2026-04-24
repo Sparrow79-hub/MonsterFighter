@@ -148,12 +148,12 @@ def select_item_in_inv(item_id):
         print("You don't have that item")
 
 def display_inv():
-    print("Commands: 'select, exit'")
+    print("\n" + "=" * 30)
     print("You open your inventory")
     print(f"{player.P1.name} || HP: {player.P1.hp} | DMG: {player.P1.dmg} | DEF: {player.P1.defence}")
     player.show_backpack()
     player.show_equipped()
-    input("What do you want to do? ")
+    print("\nInventory commands: equip <name>, drop <name>, inspect <name>, exit")
     
 def Equip_item(ITEMS):
     """Checks to see if there is anything you can equip"""
@@ -191,39 +191,37 @@ while game_running:
         display_inv()
 
         # goes to this loop if the inventory is open
+        # FIXED: Simplified inventory sub-loop.
+        # Used 'cmd' instead of 'command' to avoid overwriting main loop variable.
+        # Now equip/drop/inspect work inside inventory.
         while inv_open:
-
             user_input = input("> ").lower().split()
-
             if not user_input:
                 continue
 
-            command = user_input[0]
+            cmd = user_input[0]  # using cmd so it doesn't overwrite main command
 
-            # allows player to choose an item in inventory
-            if command == "select":
-                if len(user_input) > 1:
-                    select_item_in_inv(user_input[1])
-                else:
-                    print("What would you like to select?")
-                    
-            elif command  == "equip":
-                equip_item(item_dict.ITEMS)
-
-                # allows to drop items from inventory
-                # elif command == "drop":
-                """remove_item()"""
-
-            # allows the player to leave the inventory
-            elif command == "exit":
-                print("returning to game")
+            if cmd == "exit":
+                print("Returning to game...")
                 inv_open = False
 
-            # Command to inspect selected item in inventory
-            elif command == "inspect":
-                continue
+            elif cmd == "inv":
+                display_inv()  # refresh the inventory display to prevent error
+
+            elif cmd == "equip" and len(user_input) > 1:
+                item_name = ' '.join(user_input[1:]).title()
+                player.equip_item(item_name)
+
+            elif cmd == "drop" and len(user_input) > 1:
+                item_name = ' '.join(user_input[1:]).title()
+                player.remove_from_backpack(item_name)
+
+            elif cmd == "inspect" and len(user_input) > 1:
+                item_name = ' '.join(user_input[1:]).title()
+                player.inspect_item(item_name)  # we'll add this next
+
             else:
-                print("That is not a known command")
+                print("Unknown inventory command. Try: equip Torch, drop Torch, inspect Torch, or exit")
 
 # ================SECTION 4================
 # The commands that run in the game
@@ -261,10 +259,9 @@ while game_running:
         # Add this function call - see #7 below
         player.inspect_item(item_name)
 
-
     #prevents this from running if you exit the inventory
     elif command == "exit":
-        continue
+        continue  # do nothing, just go to next iteration of main loop
     # If the command is an Unknown command
     else:
         print("I don't understand that command.")
