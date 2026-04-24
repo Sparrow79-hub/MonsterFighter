@@ -218,10 +218,10 @@ while game_running:
 
             elif cmd == "inspect" and len(user_input) > 1:
                 item_name = ' '.join(user_input[1:]).title()
-                player.inspect_item(item_name)  # we'll add this next
+                player.inspect_item(item_name)
 
             else:
-                print("Unknown inventory command. Try: equip Torch, drop Torch, inspect Torch, or exit")
+                print("Unknown inventory command. Try: equip <Item>, drop <Item>, inspect <Item>, or exit")
 
 # ================SECTION 4================
 # The commands that run in the game
@@ -245,19 +245,6 @@ while game_running:
     # Command Swing
     elif command == "swing":
         player_swing()
-
-    elif command == "equip" and len(user_input) > 1:
-        item_name = ' '.join(user_input[1:]).title()
-        player.equip_item(item_name)
-
-    elif command == "drop" and len(user_input) > 1:
-        item_name = ' '.join(user_input[1:]).title()
-        player.remove_from_backpack(item_name)
-
-    elif command == "inspect" and len(user_input) > 1:
-        item_name = ' '.join(user_input[1:]).title()
-        # Add this function call - see #7 below
-        player.inspect_item(item_name)
 
     #prevents this from running if you exit the inventory
     elif command == "exit":

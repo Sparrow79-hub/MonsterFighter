@@ -72,9 +72,6 @@ ITEMS = {
 # Add more items here as you create them
 }
 
-# FIXED: Made ITEMS dict always map name → full item object
-# and improved get_item() to handle capitalization.
-# This was causing most "item not found" and weird <object> prints.
 def get_item(item_name):
     """Look up an item by its name. Returns the item object or None."""
     if not item_name:

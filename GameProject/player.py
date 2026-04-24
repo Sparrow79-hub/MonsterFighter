@@ -100,8 +100,6 @@ def show_equipped():
         print(f"    {slot.capitalize():<12}: {display_name}")
     print("  ────────────────────────────")
 
-    # NEW: inspect_item function added so players can see item details.
-    # Uses the improved get_item from item_dict.py
     def inspect_item(item_name):
         """Show details about an item from backpack or equipped."""
         item_obj = item_dict.get_item(item_name)
