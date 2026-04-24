@@ -72,12 +72,14 @@ def player_swing():
 def change_player_stats(self):
     """Makes outside input to change the state of the player"""
     if item_dict.Items(self, "weapon") in player_inv:
-        player.P1.dmg += player_inv["Right hand"]
+        player.P1.dmg = item_dict.item1.attack
+
+print(player.P1.dmg)
 
 
 def player_has_died():
     """Ends the game if the player HP reaches 0"""
-    if player.P1.HP >= 0:
+    if player.P1.HP <= 0:
         player_has_died = True
         print("You have died!")
         game_running = False

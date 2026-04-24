@@ -56,7 +56,7 @@ player_inv = {
     "feet": None, # Nothing equipped at start
     }
 
-def equip_item(item_id): #Right now I don't think any of this works, so I'm going to rebuild it
+def equip_item(item_id):
     # Check if item is in backpack
     if item_id not in backpack:
         print(f" You do not have {item_id} in your backpack")
