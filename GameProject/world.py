@@ -73,3 +73,10 @@ world_map = {
     }
 
 }
+
+test_map = {
+    "Testing place":{
+        "description": "Test place",
+        "item": item_dict.ITEMS
+    }
+}

@@ -11,6 +11,7 @@ import item_dict
 import world
 
 game_running = True
+Name = True
 inventory = player.backpack
 player_inv = player.player_inv
 world_map = world.world_map
@@ -26,8 +27,10 @@ print("="*50 + "\n")
 print("Before you go exploring.... I'll need to know your name.",
       )
 # Ask for name
-while True:
+while Name:
     char_name = input("What is your character's name?>").strip()
+    if char_name == "test":
+        break
 
     if not char_name:
         print("You have to enter something — even adventurers need names!")
@@ -92,8 +95,8 @@ def player_swing():
 
 def change_player_stats():
     """Makes outside input to change the state of the player"""
-    if item_dict.ITEMS in inventory:
-        change_player_stats()
+    if item_dict.Items.item_type("weapon") in player_inv:
+        player.P1.dmg += player_inv("right hand")
 
 
 def player_has_died():
@@ -137,15 +140,6 @@ def equip_item(item_id):
         player.backpack.append(old_item)
         print(f"↩ Unequipped '{old_item}' from {slot}")
 
-def select_item_in_inv(item_id):
-    global selected_item
-    if item_dict.ITEMS in inventory():
-        selected_item = inventory[selected_item][item_id]
-        print(f'Selected item: {selected_item}')
-        print("What would you like to do with this item?")
-        print("equip, drop, inspect")
-    else:
-        print("You don't have that item")
 
 def display_inv():
     print("\n" + "=" * 30)
