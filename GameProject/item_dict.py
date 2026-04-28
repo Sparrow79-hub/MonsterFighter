@@ -49,6 +49,7 @@ class Holdables(Items):
 
 # all special abilities
 special_1 = {"name": "heavy_slash", "damage": 15}
+special_2 = {"name": "fire_dmg", "damage": 4}
 
 # all potion effects
 effect_1 = {"name": "Lesser heal", "hp": 25}
@@ -57,19 +58,31 @@ effect_1 = {"name": "Lesser heal", "hp": 25}
 item1 = Melee("Basic Sword", 5, 1)
 item2 = Melee("Iron Greatsword", 15, 2, **special_1)
 item3 = Ranged("Wooden Bow", 2, 1)
+item4 = Melee("Torch", 1, 3,**special_2)
 
 # all consumables
-item4 = Holdables("Torch", "A basic wooden torch")
 item5 = Consumables("Weak Health Potion", **effect_1)
 
-# all items
+## all armor
+item6 = Armor("Shield", 3, equip_slot="left hand")
+item7 = Armor("Rusty Helm", 2, equip_slot="head")
+item8 = Armor("Worn Boots", 1, equip_slot="feet")
+item9 = Armor("Cloth Sack", 2, equip_slot="armor")
+item10 = Armor("Leather Armor", 8, equip_slot="armor")
+
+# all items dictionary - ADD THIS LINE
 ITEMS = {
-    "Basic sword": item1, # <melee object>
-    "Iron Greatsword": item2,# <melee object>
-    "Wooden Bow": item3, # <ranged weapon>
-    "Torch": item4,  # <Holdables object>
-    "Health Potion": item5 # <Consumables object>
-    }
+    "Basic sword": item1,
+    "Iron Greatsword": item2,
+    "Wooden Bow": item3,
+    "Torch": item4,
+    "Health Potion": item5,
+    "Shield": item6,
+    "Rusty Helm": item7,
+    "Feet": item8,
+    "Cloth Sack": item9,
+    "Leather Armor": item10,
+}
 
 def get_item(item_name):
     """Look up an item by its name. Returns the item object or None."""

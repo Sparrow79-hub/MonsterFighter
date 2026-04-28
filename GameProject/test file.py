@@ -122,7 +122,7 @@ def equip_item(item_id):
 def display_inv():
     print("\n" + "=" * 30)
     print("You open your inventory")
-    print(f"{player.P1.name} || HP: {player.P1.hp} | DMG: {player.P1.dmg} | DEF: {player.P1.defence}")
+    print(f"{player.P1.name} || HP: {player.P1.hp} | DMG: {player.P1.dmg} | DEF: {player.P1.defence}  ← Gear active")
     player.show_backpack()
     player.show_equipped()
     print("\nInventory commands: equip <name>, drop <name>, inspect <name>, exit")

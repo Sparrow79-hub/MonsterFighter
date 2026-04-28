@@ -86,15 +86,22 @@ player_inv = {
 
 def equip_item(item_id, player_obj):
     """Equip an item from backpack and update player stats.
-
-    player_obj is passed in from Game_V1.py so we can update stats.
+        Better name matching so typing is more forgiving
     """
-    # Check if item is in backpack
-    if item_id not in backpack:
-        print(f" You do not have {item_id} in your backpack")
+    item_id = item_id.strip().title()
+
+    # Check backpack with case-insensitive match
+    if item_id not in [item.title() for item in backpack]:
+        print(f" You do not have '{item_id}' in your backpack")
         return
 
-    # Look up the item in the item_dict
+    # Find the exact name as stored in backpack
+    for item in backpack:
+        if item.title() == item_id:
+            item_id = item
+            break
+
+      # Look up the item in the item_dict
     item_obj = item_dict.get_item(item_id)
 
     if item_obj is None:
