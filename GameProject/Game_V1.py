@@ -19,6 +19,7 @@ world_map = world.world_map
 current_room = "Town square"
 selected_item = "None"
 inv_open = False
+inv_exited = False # Added this to try and fix the exit inv issue
 char_name = ""   # Global variable to hold player's name
 player.P1 = P1
 
@@ -163,6 +164,7 @@ while game_running:
             if cmd == "exit":
                 print("Returning to game...")
                 inv_open = False
+                inv_exited = True # This should tell the main loop we just exited inv
                 # Added 'break' when exiting inventory This stops the main loop from seeing
                 # "exit" and stop printing "I don't understand"
                 break
@@ -193,9 +195,10 @@ while game_running:
 
 # ================SECTION 4================
 # The commands that run in the game
-
-    # Command Movement
-    if command == "go":
+    if inv_exited:
+        inv_exited = False   # reset the flag
+        # skip the rest of this loop iteration
+    elif command == "go":
         if len(user_input) > 1:
             move_player(user_input[1])
         else:
