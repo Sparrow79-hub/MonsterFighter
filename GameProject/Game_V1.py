@@ -18,6 +18,7 @@ world_map = world.world_map
 current_room = "Town square"
 selected_item = "None"
 inv_open = False
+char_name = ""   # Global variable to hold player's name
 
 print("\n" + "="*50)
 print("    Welcome to Averneth")
@@ -44,14 +45,14 @@ while Name:
     # If we get here → name looks okay
     confirm = input(f"Is '{char_name}' correct? (y/n): ").lower()
     if confirm.startswith('y'):
+        char_name = char_name  # assign to global variable
         break
     else:
         print("Okay, let's try again.\n")
 
-print(f"\nWelcome, brave {char_name}!\n")
-
 player.P1 = player.Player(char_name, 100, 1, 0)
 
+print(f"\nWelcome, brave {char_name}!\n")
 # ================SECTION 1================
 # Main game logic functions
 
@@ -198,6 +199,9 @@ while game_running:
             if cmd == "exit":
                 print("Returning to game...")
                 inv_open = False
+                # Added 'break' when exiting inventory This stops the main loop from seeing
+                # "exit" and stop printing "I don't understand"
+                break
 
             elif cmd == "inv":
                 display_inv()  # refresh the inventory display to prevent error
@@ -242,7 +246,7 @@ while game_running:
 
     #prevents this from running if you exit the inventory
     elif command == "exit":
-        continue  # do nothing, just go to next iteration of main loop
+       continue  # exit from inventory sub-loop - skip unknown command message
     # If the command is an Unknown command
     else:
         print("I don't understand that command.")

@@ -101,7 +101,7 @@ def show_equipped():
     print("  ────────────────────────────")
 
     def inspect_item(item_name):
-        """Show details about an item from backpack or equipped."""
+        # """Show details about an item from backpack or equipped."""
         item_obj = item_dict.get_item(item_name)
         if item_obj:
             print(f"\n=== Inspecting: {item_name} ===")
@@ -110,3 +110,20 @@ def show_equipped():
                     print(f"  {attr}: {value}")
         else:
             print(f"Could not find item '{item_name}'.")
+
+# NEW FUNCTION: inspect_item()
+# Allows player to see full details of any item (attack, defense, etc.)
+# Uses the improved get_item() from item_dict.py
+# Added because Game_V1.py calls player.inspect_item()
+def inspect_item(item_name):
+    # """Show details about an item from backpack or equipped."""
+    # Make it case-insensitive
+    item_obj = item_dict.get_item(item_name)
+
+    if item_obj:
+        print(f"\n=== Inspecting: {item_name} ===")
+        for attr, value in vars(item_obj).items():
+            if not attr.startswith('_'):
+                print(f"  {attr}: {value}")
+    else:
+        print(f"Could not find item '{item_name}'. Try using the exact name shown in your backpack.")
