@@ -9,6 +9,7 @@
 import player
 import item_dict
 import world
+P1 = player.Player("TempName", 100, 1, 0)
 
 game_running = True
 Name = True
@@ -19,6 +20,7 @@ current_room = "Town square"
 selected_item = "None"
 inv_open = False
 char_name = ""   # Global variable to hold player's name
+player.P1 = P1
 
 print("\n" + "="*50)
 print("    Welcome to Averneth")
@@ -50,9 +52,13 @@ while Name:
     else:
         print("Okay, let's try again.\n")
 
-player.P1 = player.Player(char_name, 100, 1, 0)
-
+player.P1.name = char_name
 print(f"\nWelcome, brave {char_name}!\n")
+
+# Initialize stats with any starting equipment (currently none)
+player.P1.update_stats_from_equipment()
+
+
 # ================SECTION 1================
 # Main game logic functions
 
@@ -94,11 +100,6 @@ def player_swing():
     """allows the player the attack the space in front of them if combat is initiated"""
 
 
-def change_player_stats():
-    """Makes outside input to change the state of the player"""
-    if item_dict.Items.item_type("weapon") in player_inv:
-        player.P1.dmg += player_inv("right hand")
-
 
 def player_has_died():
     """Ends the game if the player HP reaches 0"""
@@ -111,37 +112,6 @@ def player_has_died():
 # ================SECTION 2================
             # Inventory logic
 
-def equip_item(item_id):
-    # Check if item is in backpack
-    if item_id not in player.backpack:
-        print(f" You do not have {item_dict.ITEMS} in your backpack")
-        return
-    # Look up the item in the item_dict
-    item_obj = item_dict.get_item(item_id)
-
-    if item_obj is None:
-        print(f"✗ '{item_id}' is not a recognized item.")
-        return
-
-    # Check if this item CAN be equipped
-    if not hasattr(item_obj, 'equip_slot'):
-        print(f"✗ '{item_id}' cannot be equipped.")
-        return
-
-    slot = item_obj.equip_slot  # e.g. "right hand", "armor", etc.
-
-    # Check if slot exists
-    if slot not in player_inv:
-        print(f"✗ '{slot}' is not a valid equipment slot.")
-        return
-
-    # If something already in that slot, swap it out
-    if player_inv[slot] is not None:
-        old_item = player_inv[slot]
-        player.backpack.append(old_item)
-        print(f"↩ Unequipped '{old_item}' from {slot}")
-
-
 def display_inv():
     print("\n" + "=" * 30)
     print("You open your inventory")
@@ -150,13 +120,7 @@ def display_inv():
     player.show_equipped()
     print("\nInventory commands: equip <name>, drop <name>, inspect <name>, exit")
     
-def Equip_item(ITEMS):
-    """Checks to see if there is anything you can equip"""
-    if ITEMS not in inventory:
-        print("You have nothing to equip")
-    else:
-        print("")
-        
+
 
 
 #def update_held_item():
@@ -206,9 +170,15 @@ while game_running:
             elif cmd == "inv":
                 display_inv()  # refresh the inventory display to prevent error
 
+
+            # FIXED: Now passes player.P1 so equip_item can update stats
             elif cmd == "equip" and len(user_input) > 1:
+
                 item_name = ' '.join(user_input[1:]).title()
-                player.equip_item(item_name)
+
+                # Call the version in player.py and pass the player object
+
+                player.equip_item(item_name, player.P1)
 
             elif cmd == "drop" and len(user_input) > 1:
                 item_name = ' '.join(user_input[1:]).title()

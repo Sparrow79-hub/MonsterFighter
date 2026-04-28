@@ -1,6 +1,5 @@
 import item_dict
 
-
 # test player class
 class Player:
     def __init__(self, name, health, damage, defence, **item_equip):
@@ -10,7 +9,35 @@ class Player:
         self.defence = defence
         self.__dict__.update(item_equip)
 
-P1 = Player("", 100, 1, 0)
+    def update_stats_from_equipment(self):
+        """Recalculate DMG and DEF based on what is currently equipped.
+
+        WHY: So that equipping a sword actually increases your damage.
+        This runs every time you equip or unequip something.
+        """
+        # Reset to base stats first (prevents old bonuses from staying)
+        self.dmg = 1        # your starting base damage
+        self.defence = 0    # your starting base defense
+
+        # Loop through every equipped slot
+        for slot, item_id in player_inv.items():
+            if item_id is None:
+                continue  # nothing equipped here
+
+            item_obj = item_dict.get_item(item_id)
+            if item_obj is None:
+                continue
+
+            # Add weapon damage
+            if hasattr(item_obj, 'attack'):
+                self.dmg += item_obj.attack
+
+            # Add armor defense
+            if hasattr(item_obj, 'defense'):
+                self.defence += item_obj.defense
+
+        print(f"   → Stats updated | DMG: {self.dmg} | DEF: {self.defence}")  # temporary debug line
+
 
 # makes a backpack for player to use
 backpack = []
@@ -56,11 +83,17 @@ player_inv = {
     "feet": None, # Nothing equipped at start
     }
 
-def equip_item(item_id):
+
+def equip_item(item_id, player_obj):
+    """Equip an item from backpack and update player stats.
+
+    player_obj is passed in from Game_V1.py so we can update stats.
+    """
     # Check if item is in backpack
     if item_id not in backpack:
         print(f" You do not have {item_id} in your backpack")
         return
+
     # Look up the item in the item_dict
     item_obj = item_dict.get_item(item_id)
 
@@ -89,8 +122,13 @@ def equip_item(item_id):
     # Equip the new item
     player_inv[slot] = item_id
     backpack.remove(item_id)
+
     print(f"✓ Equipped '{item_id}' in {slot} slot")
 
+    # ===================== IMPORTANT =====================
+    # After equipping, update stats so gear actually works
+    player_obj.update_stats_from_equipment()
+    # ====================================================
 
 def show_equipped():
     """Show all equipped items."""
@@ -127,3 +165,7 @@ def inspect_item(item_name):
                 print(f"  {attr}: {value}")
     else:
         print(f"Could not find item '{item_name}'. Try using the exact name shown in your backpack.")
+
+
+def P1():
+    return None
