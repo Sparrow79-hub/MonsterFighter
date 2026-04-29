@@ -7,7 +7,8 @@ world_map = {
         "south": "Blacksmith shop",
         "east": "Merchant",
         "west": "Town gate",
-        "item": item_dict.item4.item_id
+        "item": item_dict.item4.item_id,
+        "Safety": 100
 
     },
 
@@ -16,17 +17,20 @@ world_map = {
         "north": "Library",
         "east": "Armory",
         "south": "Town square",
-        "item": item_dict.item1.item_id
+        "item": item_dict.item1.item_id,
+        "Safety": 100
     },
     "Library": {
         "description": "Shelves of dusty books reach the ceiling. It's quiet.",
         "south": "Great Hall",
-        "item": " "
+        "item": " ",
+        "Safety": 100
     },
     "Armory": {
         "description": "Racks of rusty swords and shields line the walls.",
         "west": "Great Hall",
-        "item": "Shield"
+        "item": "Shield",
+        "Safety": 100
     },
 
     "Merchant": {
@@ -34,16 +38,19 @@ world_map = {
         "west": "Town square",
         "east": "Shopkeep",
         "item": "",
+        "Safety": 100
     },
     "Shopkeep": {
         "description": "A place you weren't meant to see, everything around you fades away.",
         "west": "Merchant",
         "item": "",
+        "Safety": 100
     },
     "Blacksmith shop": {
         "description": "A quaint family run shop that sells basic tools",
         "north": "Town square",
         "item": "",
+        "Safety": 100
 
     },
 
@@ -51,8 +58,8 @@ world_map = {
         "description": "A gate with walls on both sides protecting from outside harm",
         "east": "Town square",
         "west": "Whispering meadows",
-        "item": ""
-
+        "item": "",
+        "Safety": 80
     },
 
     "Whispering meadows": {
@@ -60,20 +67,23 @@ world_map = {
         "east": "Town square",
         "west": "Whispering Forest",
         "item": "",
+        "Safety": 30
     },
 
     "Whispering Forest": {
         "description": "",
-        "east": "Whispering Forest",
+        "east": "Whispering meadows",
         "north": "Screaming Hills",
-        "item": ""
+        "item": "",
+        "Safety": 10
     },
 
     "Screaming Hills": {
         "description": "",
         "south": "Whispering Forest",
-        "west": "",
-        "item": ""
+        # "west": "",
+        "item": "",
+        "Safety": 0
     }
 
 }

@@ -37,6 +37,9 @@ class Player:
                 self.defence += item_obj.defense
 
         print(f"   → Stats updated | DMG: {self.dmg} | DEF: {self.defence}")  # temporary debug line
+    def gain_exp(self, amount):
+        """Gain experience - placeholder for leveling system"""
+        print(f"You gained {amount} XP!")
 
 
 # makes a backpack for player to use

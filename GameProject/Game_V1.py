@@ -6,11 +6,15 @@
 # todo, make a shop interface and logic
 # todo, build the inventory logic so you can use items and select things-done
 # TODO: Add combat instead of just printing
+# TODO: Game over screen later
+# TODO: Add leveling system later
 
 import player
-import item_dict
+# import item_dict
 import world
 import enemy
+from typing import Optional
+
 P1 = player.Player("TempName", 100, 1, 0)
 
 game_running = True
@@ -19,11 +23,14 @@ inventory = player.backpack
 player_inv = player.player_inv
 world_map = world.world_map
 current_room = "Town square"
+current_enemy: Optional["enemy.Enemy"] = None
+in_combat = False
+player_has_died = False
 selected_item = "None"
 inv_open = False
 inv_exited = False # Added this to try and fix the exit inv issue
 char_name = ""   # Global variable to hold player's name
-player.P1 = P1
+
 
 print("\n" + "="*50)
 print("    Welcome to Averneth")
@@ -55,11 +62,11 @@ while Name:
     else:
         print("Okay, let's try again.\n")
 
-player.P1.name = char_name
+P1.name = char_name
 print(f"\nWelcome, brave {char_name}!\n")
 
 # Initialize stats with any starting equipment (currently none)
-player.P1.update_stats_from_equipment()
+P1.update_stats_from_equipment()
 
 
 # ================SECTION 1================
@@ -73,6 +80,27 @@ def show_status():
     print(f"items: {world_map[current_room]['item']}")
     print("=" * 30)
 
+def trigger_random_encounter():
+    """Chance to spawn an enemy and start combat."""
+    import random
+
+    if random.random() > 0.4:  # 40% chance
+        return False
+
+    global current_enemy, in_combat
+
+    enemy_obj = enemy.get_random_enemy()
+    if enemy_obj:
+        current_enemy = enemy_obj
+        in_combat = True
+        print("\n" + "=" * 50)
+        print(f"⚔️  A wild {enemy_obj.name} appears!")
+        print(enemy_obj.get_status())
+        print("You are now in combat!")
+        print("Commands: swing, run, inv, status")
+        print("=" * 50)
+        return True
+    return False
 
 def move_player(direction):
     """Handles logic for moving between rooms."""
@@ -81,53 +109,114 @@ def move_player(direction):
     # Check if the direction is a valid key in the current room's dictionary
     if direction in world_map[current_room]:
         current_room = world_map[current_room][direction]
+        if "Safety" in world_map[current_room] and world_map[current_room]["Safety"] <= 95:
+            trigger_random_encounter()
         print(f"You walk to the {direction}...")
     else:
         print("You can't go that way!")
 
 
 def pick_up_item():
+    """Attempt to pick up item. Triggers combat in dangerous rooms."""
+    global in_combat, current_enemy
+
     room_data = world_map[current_room]
-    if "item" in room_data and room_data["item"]:
-        item = room_data["item"]
-        if player.add_to_backpack(item):
-            room_data["item"] = ""   # remove from room
-            print(f"You picked up the {item}!")
-        else:
-            print("But your backpack is full — you can't carry it.")
-    else:
+
+    if "item" not in room_data or not room_data["item"]:
         print("There's nothing here to pick up.")
+        return
 
+    item = room_data["item"]
 
-def trigger_random_encounter():
-    """Chance to spawn an enemy when moving or picking up items in dangerous areas."""
-    import random
+    # ====================== SAFETY CHECK ======================
+    # Only trigger combat in dangerous areas
+    if "Safety" in room_data and room_data["Safety"] <= 95:
+        print("This area feels dangerous...")
+        trigger_random_encounter()
 
-    # Only 40% chance of encounter (you can adjust this)
-    if random.random() > 0.4:
-        return False  # no encounter
+        # If combat started, player must win first
+        if in_combat:
+            print(f"You must defeat the enemy before claiming the {item}!")
+            return  # Exit without giving the item
+    # ==========================================================
 
-    enemy_obj = enemy.get_random_enemy()
-    if enemy_obj:
-        print("\n" + "=" * 40)
-        print(f"⚔️  A wild {enemy_obj.name} appears!")
-        print(enemy_obj.get_status())
-        print("=" * 40)
-        return True
-    return False
+    # If we reach here → either safe room OR you already won the fight
+    if player.add_to_backpack(item):
+        room_data["item"] = ""  # remove from room
+        print(f"You picked up the {item}!")
+    else:
+        print("But your backpack is full — you can't carry it.")
 
-def player_swing():
-    """allows the player the attack the space in front of them if combat is initiated"""
-
-
-
-def player_has_died():
+def player_death():
     """Ends the game if the player HP reaches 0"""
-    if player.P1.HP >= 0:
+    global player_has_died, game_running, P1
+
+    if P1.hp >= 0:
         player_has_died = True
         print("You have died!")
         game_running = False
 
+def enemy_attack():
+    """Enemy attacks the player."""
+    global in_combat, P1
+    if not current_enemy:
+        return
+    damage = max(1, current_enemy.attack - P1.defence // 2)
+    P1.hp -= damage
+    print(f"The {current_enemy.name} hits you for {damage} damage!")
+
+    if P1.hp <= 0:
+        player_death()
+
+
+def player_swing():
+    """allows the player the attack the space in front of them if combat is initiated"""
+    global current_enemy, in_combat, P1
+
+    if not current_enemy:
+        return
+
+    damage = P1.dmg  # Use your current equipped damage
+    # Simple damage calculation (can improve later)
+    actual_damage = max(1, damage - current_enemy.defence // 2)
+
+    current_enemy.health -= actual_damage
+    print(f"You hit the {current_enemy.name} for {actual_damage} damage!")
+
+    if current_enemy.health <= 0:
+        print(f"You defeated the {current_enemy.name}!")
+        P1.gain_exp(current_enemy.xp_reward)  # You'll need gain_exp later
+        in_combat = False
+        current_enemy = None
+        return
+
+    # Enemy attacks back
+    enemy_attack()
+
+def attempt_run():
+    """Try to flee from combat."""
+    import random
+    global in_combat, current_enemy, P1
+    if not current_enemy:
+        return
+    if random.random() > 0.5:   # 50% chance to escape
+        print("You successfully ran away!")
+        in_combat = False
+        current_enemy = None
+    else:
+        print("Couldn't escape!")
+        enemy_attack()
+
+def show_combat_status():
+    """allows the player to check the status of player and enemy to keep an eye on health."""
+    global in_combat, current_enemy, P1
+    if not current_enemy:
+        return
+    print("\n" + "=" * 30)
+    print(f"Player HP: {P1.hp} | DMG: {P1.dmg}")
+    if current_enemy:
+        print(current_enemy.get_status())
+    print("=" * 30)
 
 # ================SECTION 2================
             # Inventory logic
@@ -135,7 +224,7 @@ def player_has_died():
 def display_inv():
     print("\n" + "=" * 30)
     print("You open your inventory")
-    print(f"{player.P1.name} || HP: {player.P1.hp} | DMG: {player.P1.dmg} | DEF: {player.P1.defence}")
+    print(f"{P1.name} || HP: {P1.hp} | DMG: {P1.dmg} | DEF: {P1.defence}")
     player.show_backpack()
     player.show_equipped()
     print("\nInventory commands: equip <name>, drop <name>, inspect <name>, exit")
@@ -165,6 +254,26 @@ while game_running:
 
     command = user_input[0]
 
+    # ====================== COMBAT HANDLING ======================
+    while in_combat:  # Changed to while so it keeps asking for combat commands
+        if command == "swing":
+            player_swing()
+        elif command == "run":
+            attempt_run()
+        elif command == "status":
+            show_combat_status()
+        elif command == "inv":
+            display_inv()
+        else:
+            print("In combat! Use: swing, run, inv, status")
+
+        # Get next input while still in combat
+        user_input = input("> ").lower().split()
+        if not user_input:
+            continue
+        command = user_input[0]
+    # ============================================================
+
     if command == "inv":
         inv_open = True
         display_inv()
@@ -192,14 +301,14 @@ while game_running:
                 display_inv()  # refresh the inventory display to prevent error
 
 
-            # FIXED: Now passes player.P1 so equip_item can update stats
+            # FIXED: Now passes P1 so equip_item can update stats
             elif cmd == "equip" and len(user_input) > 1:
 
                 item_name = ' '.join(user_input[1:]).title()
 
                 # Call the version in player.py and pass the player object
 
-                player.equip_item(item_name, player.P1)
+                player.equip_item(item_name, P1)
 
             elif cmd == "drop" and len(user_input) > 1:
                 item_name = ' '.join(user_input[1:]).title()
