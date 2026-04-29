@@ -10,10 +10,12 @@
 # TODO: Add leveling system later
 
 import player
-# import item_dict
+import item_dict
 import world
 import enemy
 from typing import Optional
+
+from MonsterFighter.GameProject.player import backpack
 
 P1 = player.Player("TempName", 100, 1, 0)
 
@@ -156,12 +158,12 @@ def pick_up_item():
 
 def player_death():
     """Ends the game if the player HP reaches 0"""
-    global player_has_died, game_running, P1
-
-    if P1.hp >= 0:
-        player_has_died = True
-        print("You have died!")
-        game_running = False
+    global player_has_died, game_running, in_combat, current_enemy
+    print("You have died!")
+    player_has_died = True
+    in_combat = False
+    current_enemy = None
+    game_running = False
 
 def enemy_attack():
     """Enemy attacks the player."""
@@ -255,8 +257,23 @@ def display_inv():
     player.show_backpack()
     player.show_equipped()
     print("\nInventory commands: equip <name>, drop <name>, inspect <name>, exit")
-    
 
+
+def use_item(item_name, player_obj):
+    """Use a consumable item (potions, etc.)"""
+    item_obj = item_dict.get_item(item_name)
+    if not item_obj or item_obj.item_type != "potion":
+        print(f"Cannot use {item_name}")
+        return
+
+    # Example for healing
+    if hasattr(item_obj, 'hp'):
+        player_obj.hp += item_obj.hp
+        print(f"You used {item_name} and healed for {item_obj.hp} HP!")
+
+    # Remove from backpack after use
+    if item_name in backpack:
+        backpack.remove(item_name)
 
 
 #def update_held_item():
@@ -327,6 +344,9 @@ while game_running:
             elif cmd == "inv":
                 display_inv()  # refresh the inventory display to prevent error
 
+            elif cmd == "use" and len(user_input) > 1:
+                item_name = ' '.join(user_input[1:]).title()
+                player.use_item(item_name, P1)
 
             # FIXED: Now passes P1 so equip_item can update stats
             elif cmd == "equip" and len(user_input) > 1:

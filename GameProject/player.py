@@ -177,5 +177,8 @@ def inspect_item(item_name):
         print(f"Could not find item '{item_name}'. Try using the exact name shown in your backpack.")
 
 
-def P1():
-    return None
+def take_damage(self, amount):
+    self.hp -= amount
+    if self.hp <= 0:
+        self.hp = 0
+        # You can call game over logic from here later
