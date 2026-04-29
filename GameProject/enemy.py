@@ -1,3 +1,5 @@
+import copy
+
 class Enemy:
     def __init__(self, name, description, health, defence, speed, attack, weapon, armor, items, xp_reward=10, loot_chance=0.3):
         self.name = name
@@ -125,7 +127,9 @@ def get_random_enemy():
     """Returns a random enemy object from the list.
     Used later for random encounters."""
     import random
+    import copy
     if not ENEMIES:
         return None
     enemy_name = random.choice(list(ENEMIES.keys()))
-    return ENEMIES[enemy_name]
+    original = ENEMIES[enemy_name]
+    return copy.deepcopy(original)

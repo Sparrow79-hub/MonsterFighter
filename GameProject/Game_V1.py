@@ -2,12 +2,13 @@
 # todo, make a working system that can add items to the inventory-done
 # todo, get the held item to change the stats of the player-done
 # todo, add the rest of the map to the game(50%)
-# todo, get a enemy that can spawn during an interaction
+# todo, get a enemy that can spawn during an interaction-done
 # todo, make a shop interface and logic
 # todo, build the inventory logic so you can use items and select things-done
 # TODO: Add combat instead of just printing
 # TODO: Game over screen later
 # TODO: Add leveling system later
+# TODO: Restart game logic later
 
 import player
 import item_dict
@@ -157,13 +158,27 @@ def pick_up_item():
         print("But your backpack is full — you can't carry it.")
 
 def player_death():
-    """Ends the game if the player HP reaches 0"""
     global player_has_died, game_running, in_combat, current_enemy
-    print("You have died!")
+
+    print("\n" + "="*50)
+    print("💀 You have died!")
+    print("="*50)
+
     player_has_died = True
     in_combat = False
     current_enemy = None
-    game_running = False
+    game_running = False  # This is the key line that stops the main loop
+
+    # Simple play again prompt (clean version)
+    play_again = input("Do you wish to play again? (y/n): ").lower().strip()
+    if play_again.startswith('y'):
+        print("Restarting game... (Not fully implemented yet)")
+
+    else:
+        print("Thanks for playing!")
+        # game_running = False
+        # command = "quit"
+
 
 def enemy_attack():
     """Enemy attacks the player."""
@@ -253,7 +268,7 @@ def show_combat_status():
 def display_inv():
     print("\n" + "=" * 30)
     print("You open your inventory")
-    print(f"{P1.name} || HP: {P1.hp} | DMG: {P1.dmg} | DEF: {P1.defence}")
+    print(f"{P1.name} || HP: {max(0, P1.hp)} | DMG: {P1.dmg} | DEF: {P1.defence}")
     player.show_backpack()
     player.show_equipped()
     print("\nInventory commands: equip <name>, drop <name>, inspect <name>, exit")
@@ -266,9 +281,10 @@ def display_inv():
 print("Commands: 'go [north/south/east/west]', 'get', 'inv', 'swing', 'exit', 'quit'")
 
 while game_running:
-    show_status()
+    if not game_running:  # ← Extra safety
+        break
 
-    # creates an inventory interface when the game is running
+    show_status()
 
     user_input = input("> ").lower().split()
 
@@ -278,7 +294,9 @@ while game_running:
     command = user_input[0]
 
     # ====================== COMBAT HANDLING ======================
-    while in_combat:  # Changed to while so it keeps asking for combat commands
+    while in_combat and game_running:  # ← Added "and game_running"
+        if not game_running:
+            break
         cmmd = user_input[0]
         if cmmd == "swing":
             player_swing()
@@ -297,7 +315,9 @@ while game_running:
         else:
             print("In combat! Use: swing, run, inv (equip <item>, use <item>), status")
 
-        # Get next input
+        # Get next input only if game is running
+        if not game_running:
+            break
         user_input = input("> ").lower().split()
         if not user_input:
             continue
@@ -313,10 +333,13 @@ while game_running:
         # FIXED: Simplified inventory sub-loop.
         # Used 'cmd' instead of 'command' to avoid overwriting main loop variable.
         # Now equip/drop/inspect work inside inventory.
-        while inv_open:
+        while inv_open and game_running:
             user_input = input("> ").lower().split()
             if not user_input:
                 continue
+            # Get next input only if game is running
+            if not game_running:
+                break
 
             cmd = user_input[0]  # using cmd so it doesn't overwrite main command
 
