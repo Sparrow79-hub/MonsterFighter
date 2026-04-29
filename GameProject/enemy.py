@@ -129,8 +129,3 @@ def get_random_enemy():
         return None
     enemy_name = random.choice(list(ENEMIES.keys()))
     return ENEMIES[enemy_name]
-
-if __name__ == "__main__":
-    print("Testing enemies...")
-    print(get_random_enemy().get_status())
-    print("All enemies loaded successfully!")

@@ -2,6 +2,7 @@
 import item_dict
 import player
 import world
+import enemy
 
 game_running = True
 inventory = player.backpack
@@ -74,7 +75,6 @@ def change_player_stats(self):
     if item_dict.Items(self, "weapon") in player_inv:
         player.P1.dmg = item_dict.item1.attack
 
-print(player.P1.dmg)
 
 
 def player_has_died():
@@ -143,6 +143,10 @@ def Equip_item(ITEMS):
 # ================SECTION 3================
 # The actual running game
 
+if __name__ == "__main__":
+    print("Testing enemies...")
+    print(enemy.get_random_enemy().get_status())
+    print("All enemies loaded successfully!")
 
 print("Commands: 'go [north/south/east/west]', 'get', 'inv', 'swing', 'exit', 'quit'")
 
@@ -224,3 +228,4 @@ while game_running:
     # If the command is an Unknown command
     else:
         print("I don't understand that command.")
+

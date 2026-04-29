@@ -14,16 +14,10 @@
 #    All other files will be loaded automatically.
 # ============================================================
 
-from player import Player
-from items  import (
-    basic_sword,
-    iron_sword,
-    iron_greatsword,
-    poison_dagger,
-    basic_armor,
-    iron_chestplate,
-    health_potion,
-)
+import item_dict
+import player
+import world
+import enemy
 
 
 def main():

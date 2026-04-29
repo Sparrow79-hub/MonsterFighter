@@ -32,10 +32,14 @@ world_map = {
     "Merchant": {
         "description": "The shop of the town. There's nothing here right now.",
         "west": "Town square",
-        "east": "shopkeep",
+        "east": "Shopkeep",
         "item": "",
     },
-
+    "Shopkeep": {
+        "description": "A place you weren't meant to see, everything around you fades away.",
+        "west": "Merchant",
+        "item": "",
+    },
     "Blacksmith shop": {
         "description": "A quaint family run shop that sells basic tools",
         "north": "Town square",

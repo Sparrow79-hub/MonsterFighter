@@ -1,10 +1,11 @@
-# todo, fix the inventory logic
+# todo, fix the inventory logic-done
 # todo, make a working system that can add items to the inventory-done
-# todo, get the held item to change the stats of the player
+# todo, get the held item to change the stats of the player-done
 # todo, add the rest of the map to the game(50%)
 # todo, get a enemy that can spawn during an interaction
 # todo, make a shop interface and logic
-# todo, build the inventory logic so you can use items and select things
+# todo, build the inventory logic so you can use items and select things-done
+# TODO: Add combat instead of just printing
 
 import player
 import item_dict
@@ -112,7 +113,6 @@ def trigger_random_encounter():
         print(f"⚔️  A wild {enemy_obj.name} appears!")
         print(enemy_obj.get_status())
         print("=" * 40)
-        # TODO: Later we will start combat here instead of just printing
         return True
     return False
 
