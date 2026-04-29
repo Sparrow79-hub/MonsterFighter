@@ -31,7 +31,7 @@ class Player:
             if hasattr(item_obj, 'damage'):
                 self.dmg += item_obj.damage
 
-        print(f"   → Stats updated | DMG: {self.dmg} | DEF: {self.defense}")  # temporary debug line
+        # print(f"   → Stats updated | DMG: {self.dmg} | DEF: {self.defense}")  # temporary debug line
 
     def take_damage(self, amount):
         self.hp -= amount
