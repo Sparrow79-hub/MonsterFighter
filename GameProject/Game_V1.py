@@ -83,11 +83,10 @@ def show_status():
 def trigger_random_encounter():
     """Chance to spawn an enemy and start combat."""
     import random
+    global current_enemy, in_combat
 
     if random.random() > 0.4:  # 40% chance
         return False
-
-    global current_enemy, in_combat
 
     enemy_obj = enemy.get_random_enemy()
     if enemy_obj:
@@ -102,16 +101,24 @@ def trigger_random_encounter():
         return True
     return False
 
-def move_player(direction):
-    """Handles logic for moving between rooms."""
-    global current_room  # We use 'global' because we are changing a variable outside the function
 
-    # Check if the direction is a valid key in the current room's dictionary
+def move_player(direction):
+    """Handles moving + possible enemy encounter in the new room."""
+    global current_room
+
     if direction in world_map[current_room]:
         current_room = world_map[current_room][direction]
-        if "Safety" in world_map[current_room] and world_map[current_room]["Safety"] <= 95:
-            trigger_random_encounter()
         print(f"You walk to the {direction}...")
+
+        # ====================== ENCOUNTER LOGIC ======================
+        # Get safety of the NEW room we just entered
+        safety = world_map[current_room].get("Safety", 100)  # default = safe
+
+        if safety <= 95:  # dangerous room
+            print("This area feels dangerous...")
+            trigger_random_encounter()  # This will start combat if it triggers
+        # ============================================================
+
     else:
         print("You can't go that way!")
 
@@ -185,7 +192,27 @@ def player_swing():
 
     if current_enemy.health <= 0:
         print(f"You defeated the {current_enemy.name}!")
-        P1.gain_exp(current_enemy.xp_reward)  # You'll need gain_exp later
+        P1.gain_exp(current_enemy.xp_reward)
+
+        # ====================== LOOT DROP ======================
+        # Drop ALL items the enemy has (weapon + armor + items list)
+        loot_list = []
+
+        if current_enemy.weapon:
+            loot_list.append(current_enemy.weapon)
+        if current_enemy.armor:
+            loot_list.append(current_enemy.armor)
+        if current_enemy.items:  # this is already a list
+            loot_list.extend(current_enemy.items)
+
+        # Try to add each item to backpack
+        for items in loot_list:
+            if player.add_to_backpack(items):
+                print(f"The {current_enemy.name} dropped {items}!")
+            else:
+                print(f"The {current_enemy.name} dropped {items}, but your backpack is full!")
+        # ======================================================
+
         in_combat = False
         current_enemy = None
         return

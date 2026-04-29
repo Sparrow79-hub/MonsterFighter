@@ -29,7 +29,7 @@ world_map = {
     "Armory": {
         "description": "Racks of rusty swords and shields line the walls.",
         "west": "Great Hall",
-        "item": "Shield",
+        "item": "Wooden Shield",
         "Safety": 100
     },
 
