@@ -23,7 +23,7 @@ world_map = {
     "Library": {
         "description": "Shelves of dusty books reach the ceiling. It's quiet.",
         "south": "Great Hall",
-        "item": " ",
+        "item": item_dict.item5.item_id,
         "Safety": 100
     },
     "Armory": {

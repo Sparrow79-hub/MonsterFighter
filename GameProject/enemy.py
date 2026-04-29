@@ -23,9 +23,9 @@ Skeleton = Enemy(
     name="Skeleton",
     description="A lifeless walking skeleton",
     health=35,
-    defense=0,
+    defense=3,
     speed=10,
-    attack=5,
+    attack=4,
     weapon="Wooden Bow",
     armor="Wooden Shield",
     items=["Weak Health Potion", "Rusty Helm"],
@@ -36,10 +36,10 @@ Zombie = Enemy(
     name="Zombie",
     description="A reanimated decomposing human corpse",
     health=45,
-    defense=8,
+    defense=1,
     speed=15,
-    attack=15,
-    weapon="Hands",
+    attack=3,
+    weapon=" ",
     armor="Cloth Sack",
     items=["Shield Potion", "Greater Health Potion"],
     xp_reward=15,
@@ -49,12 +49,12 @@ Armored_Zombie = Enemy(
     name="Armored Zombie",
     description="A reanimated decomposing human corpse in armor!",
     health=75,
-    defense=30,
+    defense=28,
     speed=10,
-    attack=29,
-    weapon="Iron Sword",
-    armor= "Chainmail",
-    items=["Poison Vial", "Greater Health Potion"],
+    attack=21,
+    weapon="Diamond Sword",
+    armor= "Diamond Armor",
+    items=["Poison Vial", "Greater Health Potion", "Flame Sword", "Max Health Potion", "Diamond Boots", "Diamond Helm"],
     xp_reward=35,
     loot_chance=0.4
 )
@@ -64,7 +64,7 @@ Rabid_Dog = Enemy(
     health=35,
     defense=3,
     speed=25,
-    attack=9,
+    attack=5,
     weapon="Teeth",
     armor= "",
     items=["Weak Health Potion", "Basic Clothes"],
@@ -75,9 +75,9 @@ Goblin = Enemy(
     name="Goblin",
     description="A sneaky green creature with a rusty dagger",
     health=25,
-    defense=1,
+    defense=8,
     speed=14,
-    attack=6,
+    attack=7,
     weapon="Steel Dagger",
     armor="Leather Armor",
     items=["Poison Vial", "Greater Health Potion", "Worn Boots"],
@@ -89,9 +89,9 @@ Wolf = Enemy(
     name="Dire Wolf",
     description="A large feral wolf with glowing eyes",
     health=30,
-    defense=3,
+    defense=5,
     speed=18,
-    attack=8,
+    attack=7,
     weapon="Teeth",
     armor="",
     items=["Shield Potion", "Strength Elixir", "Weak Health Potion"],
@@ -103,7 +103,7 @@ Bandit = Enemy(
     name="Bandit",
     description="A ragged highwayman looking for an easy target",
     health=45,
-    defense=4,
+    defense=18,
     speed=12,
     attack=9,
     weapon="Iron Sword",
@@ -112,7 +112,74 @@ Bandit = Enemy(
     xp_reward=30,
     loot_chance=0.3
 )
+Lost_Peasant = Enemy(
+    name="Lost Peasant",
+    description="A normal human peasant that has become lost, confused, and desperate.",
+    health=20,
+    defense=3,
+    speed=8,
+    attack=5,
+    weapon="Basic Sword",
+    armor="Basic Clothes",
+    items=["Weak Health Potion", "Cloth Helm", "Cloth Shoes"],
+    xp_reward=10,
+    loot_chance=0.95
+)
+Undead_Hunter = Enemy(
+    name="Undead Hunter",
+    description="A skeletal archer risen from the dead, still clutching its bow.",
+    health=50,
+    defense=12,
+    speed=12,
+    attack=8,
+    weapon="Hunter's Bow",
+    armor="Chainmail",
+    items=["Iron Helm", "Health Potion"],
+    xp_reward=20,
+    loot_chance=0.85
+)
 
+Dark_Elf = Enemy(
+    name="Dark Elf",
+    description="A shadowy elven rogue with deadly precision.",
+    health=45,
+    defense=15,
+    speed=20,
+    attack=7,
+    weapon="Steel Dagger",
+    armor="Slate Armor",
+    items=["Leather Helm", "Health Potion"],
+    xp_reward=25,
+    loot_chance=0.80
+)
+
+Orc = Enemy(
+    name="Orc",
+    description="A massive brutish creature wielding a greatsword.",
+    health=65,
+    defense=10,
+    speed=8,
+    attack=16,
+    weapon="Iron Greatsword",
+    armor="Iron Helm",
+    items=["Basic Sword", "Health Potion"],
+    xp_reward=30,
+    loot_chance=0.75
+)
+
+Demon = Enemy(
+    name="Demon",
+    description="A terrifying creature from the underworld wreathed in dark flames.",
+    health=90,
+    defense=18,
+    speed=15,
+    attack=13,
+    weapon="Flame Sword",
+    armor="Bone Armor",
+    items=["Bone Helm", "Max Health Potion"],
+    xp_reward=40,
+    loot_chance=0.70
+)
 ENEMIES = {
     "Skeleton": Skeleton,
     "Zombie": Zombie,
@@ -121,6 +188,11 @@ ENEMIES = {
     "Goblin": Goblin,
     "Dire Wolf": Wolf,
     "Bandit": Bandit,
+    "Lost Peasant": Lost_Peasant,
+    "Undead Hunter": Undead_Hunter,
+    "Dark Elf": Dark_Elf,
+    "Orc": Orc,
+    "Demon": Demon,
 }
 
 def get_random_enemy():
