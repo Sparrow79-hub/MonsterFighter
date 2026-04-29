@@ -259,27 +259,6 @@ def display_inv():
     print("\nInventory commands: equip <name>, drop <name>, inspect <name>, exit")
 
 
-def use_item(item_name, player_obj):
-    """Use a consumable item (potions, etc.)"""
-    item_obj = item_dict.get_item(item_name)
-    if not item_obj or item_obj.item_type != "potion":
-        print(f"Cannot use {item_name}")
-        return
-
-    # Example for healing
-    if hasattr(item_obj, 'hp'):
-        player_obj.hp += item_obj.hp
-        print(f"You used {item_name} and healed for {item_obj.hp} HP!")
-
-    # Remove from backpack after use
-    if item_name in backpack:
-        backpack.remove(item_name)
-
-
-#def update_held_item():
-#   """Checks what item is in the player hand and updates the stats as needed"""
-    
-
 # ================SECTION 3================
 # The actual running game
 
@@ -300,22 +279,30 @@ while game_running:
 
     # ====================== COMBAT HANDLING ======================
     while in_combat:  # Changed to while so it keeps asking for combat commands
-        if command == "swing":
+        cmmd = user_input[0]
+        if cmmd == "swing":
             player_swing()
-        elif command == "run":
+        elif cmmd == "run":
             attempt_run()
-        elif command == "status":
+        elif cmmd == "status":
             show_combat_status()
-        elif command == "inv":
+        elif cmmd == "inv":
             display_inv()
+        elif cmmd == "equip" and len(user_input) > 1:  # allow equipping in combat
+            item_name = ' '.join(user_input[1:]).title()
+            player.equip_item(item_name, P1)
+        elif cmmd == "use" and len(user_input) > 1:  # allow using potions in combat
+            item_name = ' '.join(user_input[1:]).title()
+            player.use_item(item_name, P1)
         else:
-            print("In combat! Use: swing, run, inv, status")
+            print("In combat! Use: swing, run, inv (equip <item>, use <item>), status")
 
-        # Get next input while still in combat
+        # Get next input
         user_input = input("> ").lower().split()
         if not user_input:
             continue
         command = user_input[0]
+        cmmd = command  # make sure cmd is updated too
     # ============================================================
 
     if command == "inv":
@@ -344,17 +331,20 @@ while game_running:
             elif cmd == "inv":
                 display_inv()  # refresh the inventory display to prevent error
 
+
             elif cmd == "use" and len(user_input) > 1:
+
                 item_name = ' '.join(user_input[1:]).title()
+
+                # Call the function in player.py and pass the player object
                 player.use_item(item_name, P1)
 
-            # FIXED: Now passes P1 so equip_item can update stats
+
             elif cmd == "equip" and len(user_input) > 1:
 
                 item_name = ' '.join(user_input[1:]).title()
 
                 # Call the version in player.py and pass the player object
-
                 player.equip_item(item_name, P1)
 
             elif cmd == "drop" and len(user_input) > 1:

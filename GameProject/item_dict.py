@@ -49,8 +49,9 @@ class Holdables(Items):
 
 # all special abilities
 special_1 = {"name": "heavy_slash", "damage": 15}
-special_2 = {"name": "fire_dmg", "damage": 4}
+special_2 = {"name": "fire_dmg", "damage": 1}
 special_3 = {"name": "Fire Slash", "damage": 6}
+special_4 = {"name": "Wicked Slash", "damage": 8}
 
 # all potion effects
 effect_1 = {"name": "Lesser heal", "hp": 25}
@@ -62,7 +63,7 @@ effect_6 = {"name": "Strength Boost", "attack_bonus": 8, "duration": 5}
 effect_7 = {"name": "Poison", "damage_over_time": 4, "duration": 3}
 
 # all weapons
-item1 = Melee("Basic Sword", 5, 1)
+item1 = Melee("Basic Sword", 4, 1)
 item2 = Melee("Iron Greatsword", 15, 2, **special_1)
 item3 = Ranged("Wooden Bow", 2, 1)
 item4 = Melee("Torch", 1, 3,**special_2)
@@ -70,6 +71,7 @@ item18 = Melee("Iron Sword", 8, 1)
 item19 = Melee("Steel Dagger", 6, 2, crit_chance=0.15)
 item20 = Ranged("Hunter's Bow", 7, 1)
 item21 = Melee("Flame Sword", 12, 1, **special_3)
+item35 = Melee("Diamond Sword", 20, 4,**special_4)
 
 # all consumables
 item5 = Consumables("Weak Health Potion", **effect_1)
@@ -83,18 +85,23 @@ item24 = Consumables("Poison Vial", **effect_7)
 ## all armor
 item6 = Armor("Wooden Shield", 3, equip_slot="left hand")
 item7 = Armor("Rusty Helm", 2, equip_slot="head")
-item8 = Armor("Worn Boots", 1, equip_slot="feet")
+item8 = Armor("Worn Boots", 2, equip_slot="feet")
 item9 = Armor("Cloth Sack", 1, equip_slot="armor")
 item10 = Armor("Leather Armor", 8, equip_slot="armor")
-item14 = Armor("Chainmail", 8, equip_slot="armor")
-item15 = Armor("Basic Clothes", 8, equip_slot="armor")
-item16 = Armor("Bone Armor", 8, equip_slot="armor")
-item17 = Armor("Slate Armor", 8, equip_slot="armor")
-item25 = Armor("Iron Armor", 8, equip_slot="armor")
-item26 = Armor("Diamond Armor", 8, equip_slot="armor")
-item27 = Armor("Cloth Shoes", 8, equip_slot="armor")
-item28 = Armor("Leather Boots", 8, equip_slot="armor")
-item29 = Armor("Diamond Boots", 8, equip_slot="armor")
+item14 = Armor("Chainmail", 12, equip_slot="armor")
+item15 = Armor("Basic Clothes", 3, equip_slot="armor")
+item16 = Armor("Bone Armor", 10, equip_slot="armor")
+item17 = Armor("Slate Armor", 15, equip_slot="armor")
+item25 = Armor("Iron Armor", 18, equip_slot="armor")
+item26 = Armor("Diamond Armor", 28, equip_slot="armor")
+item27 = Armor("Cloth Shoes", 1, equip_slot="feet")
+item28 = Armor("Leather Boots", 4, equip_slot="feet")
+item29 = Armor("Diamond Boots", 15, equip_slot="feet")
+item30 = Armor("Bone Helm", 8, equip_slot="head")
+item31 = Armor("Iron Helm", 10, equip_slot="head")
+item32 = Armor("Diamond Helm", 20, equip_slot="head")
+item33 = Armor("Cloth Helm", 1, equip_slot="head")
+item34 = Armor("Leather Helm", 4, equip_slot="head")
 
 
 # all items dictionary - ADD THIS LINE
@@ -108,6 +115,7 @@ ITEMS = {
     "Steel Dagger": item19,
     "Hunter's Bow": item20,
     "Flame Sword": item21,
+    "Diamond Sword": item35,
 
     # ====================== CONSUMABLES ======================
     "Weak Health Potion": item5,
@@ -133,6 +141,12 @@ ITEMS = {
     "Cloth Shoes": item27,
     "Leather Boots": item28,
     "Diamond Boots": item29,
+    "Bone Helm": item30,
+    "Iron Helm": item31,
+    "Diamond Helm": item32,
+    "Cloth Helm": item33,
+    "Leather Helm": item34,
+
 
 }
 

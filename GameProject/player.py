@@ -1,3 +1,4 @@
+# TODO: Add more effect types later under use_item (mana, strength boost, poison, etc.)
 import item_dict
 
 # test player class
@@ -31,6 +32,10 @@ class Player:
             # Add weapon damage
             if hasattr(item_obj, 'attack'):
                 self.dmg += item_obj.attack
+                # This should allow the handling of special effects
+                if hasattr(item_obj, 'name') and hasattr(item_obj, 'damage'):
+                    print(f"Special effect active: {item_obj.name} (+{item_obj.damage} dmg)")
+                    self.dmg += item_obj.damage  # this should add the fire damage to torch.
 
             # Add armor defense
             if hasattr(item_obj, 'defense'):
@@ -181,4 +186,39 @@ def take_damage(self, amount):
     self.hp -= amount
     if self.hp <= 0:
         self.hp = 0
-        # You can call game over logic from here later
+
+
+def use_item(item_name, player_obj):
+    """Use a consumable item like potions.
+
+    Called from Game_V1.py when player types 'use <item>'
+    """
+    # Better name matching
+    item_name = item_name.strip().title()
+
+    item_obj = item_dict.get_item(item_name)
+    if item_obj is None:
+        print(f"Could not find item '{item_name}'")
+        return
+
+    # Check if it's actually a consumable
+    if not hasattr(item_obj, 'item_type') or item_obj.item_type != "potion":
+        print(f"You cannot use {item_name}.")
+        return
+
+    # ====================== HEALING ======================
+    if hasattr(item_obj, 'hp') and item_obj.hp > 0:
+        player_obj.hp += item_obj.hp
+        print(f"You used {item_name} and healed for {item_obj.hp} HP!")
+        print(f"Current HP: {player_obj.hp}")
+
+    # Remove from backpack after use
+    if item_name in backpack:
+        backpack.remove(item_name)
+    else:
+        # Try case-insensitive removal
+        for item in backpack[:]:
+            if item.title() == item_name:
+                backpack.remove(item)
+                break
+    # ====================================================
