@@ -16,9 +16,7 @@ import world
 import enemy
 from typing import Optional
 
-from MonsterFighter.GameProject.player import backpack
-
-P1 = player.Player("TempName", 100, 1, 0)
+Player = player.Player("TempName", 100, 1, 0)
 
 game_running = True
 Name = True
@@ -44,7 +42,7 @@ print("Before you go exploring.... I'll need to know your name.",
       )
 # Ask for name
 while Name:
-    char_name = input("What is your character's name?>").strip()
+    char_name = input("What is your character's name?> ").strip()
     if char_name == "test":
         break
 
@@ -65,12 +63,11 @@ while Name:
     else:
         print("Okay, let's try again.\n")
 
-P1.name = char_name
+
+Player.name = char_name
 print(f"\nWelcome, brave {char_name}!\n")
 
-# Initialize stats with any starting equipment (currently none)
-P1.update_stats_from_equipment()
-
+Player.update_stats_from_equipment()
 
 # ================SECTION 1================
 # Main game logic functions
@@ -182,34 +179,34 @@ def player_death():
 
 def enemy_attack():
     """Enemy attacks the player."""
-    global in_combat, P1
+    global in_combat, Player
     if not current_enemy:
         return
-    damage = max(1, current_enemy.attack - P1.defence // 2)
-    P1.hp -= damage
+    damage = max(1, current_enemy.attack - Player.defense // 2)
+    Player.hp -= damage
     print(f"The {current_enemy.name} hits you for {damage} damage!")
 
-    if P1.hp <= 0:
+    if Player.hp <= 0:
         player_death()
 
 
 def player_swing():
     """allows the player the attack the space in front of them if combat is initiated"""
-    global current_enemy, in_combat, P1
+    global current_enemy, in_combat, Player
 
     if not current_enemy:
         return
-
-    damage = P1.dmg  # Use your current equipped damage
+    Player.update_stats_from_equipment()
+    damage = Player.dmg  # Use your current equipped damage
     # Simple damage calculation (can improve later)
-    actual_damage = max(1, damage - current_enemy.defence // 2)
+    actual_damage = max(1, damage - current_enemy.defense // 2)
 
     current_enemy.health -= actual_damage
     print(f"You hit the {current_enemy.name} for {actual_damage} damage!")
 
     if current_enemy.health <= 0:
         print(f"You defeated the {current_enemy.name}!")
-        P1.gain_exp(current_enemy.xp_reward)
+        Player.gain_exp(current_enemy.xp_reward)
 
         # ====================== LOOT DROP ======================
         # Drop ALL items the enemy has (weapon + armor + items list)
@@ -240,7 +237,7 @@ def player_swing():
 def attempt_run():
     """Try to flee from combat."""
     import random
-    global in_combat, current_enemy, P1
+    global in_combat, current_enemy, Player
     if not current_enemy:
         return
     if random.random() > 0.5:   # 50% chance to escape
@@ -253,11 +250,11 @@ def attempt_run():
 
 def show_combat_status():
     """allows the player to check the status of player and enemy to keep an eye on health."""
-    global in_combat, current_enemy, P1
+    global in_combat, current_enemy, Player
     if not current_enemy:
         return
     print("\n" + "=" * 30)
-    print(f"Player HP: {P1.hp} | DMG: {P1.dmg}")
+    print(f"Player HP: {Player.hp} | DMG: {Player.dmg}")
     if current_enemy:
         print(current_enemy.get_status())
     print("=" * 30)
@@ -268,10 +265,10 @@ def show_combat_status():
 def display_inv():
     print("\n" + "=" * 30)
     print("You open your inventory")
-    print(f"{P1.name} || HP: {max(0, P1.hp)} | DMG: {P1.dmg} | DEF: {P1.defence}")
+    print(f"{Player.name} || HP: {max(0, Player.hp)} | DMG: {Player.dmg} | DEF: {Player.defense}")
     player.show_backpack()
     player.show_equipped()
-    print("\nInventory commands: equip <name>, drop <name>, inspect <name>, exit")
+    print("\nInventory commands: equip <name>, drop <name>, inspect <name>, use <name> exit")
 
 
 # ================SECTION 3================
@@ -308,10 +305,10 @@ while game_running:
             display_inv()
         elif cmmd == "equip" and len(user_input) > 1:  # allow equipping in combat
             item_name = ' '.join(user_input[1:]).title()
-            player.equip_item(item_name, P1)
+            player.equip_item(item_name, Player)
         elif cmmd == "use" and len(user_input) > 1:  # allow using potions in combat
             item_name = ' '.join(user_input[1:]).title()
-            player.use_item(item_name, P1)
+            player.use_item(item_name, Player)
         else:
             print("In combat! Use: swing, run, inv (equip <item>, use <item>), status")
 
@@ -360,7 +357,7 @@ while game_running:
                 item_name = ' '.join(user_input[1:]).title()
 
                 # Call the function in player.py and pass the player object
-                player.use_item(item_name, P1)
+                player.use_item(item_name,Player)
 
 
             elif cmd == "equip" and len(user_input) > 1:
@@ -368,7 +365,7 @@ while game_running:
                 item_name = ' '.join(user_input[1:]).title()
 
                 # Call the version in player.py and pass the player object
-                player.equip_item(item_name, P1)
+                player.equip_item(item_name, Player)
 
             elif cmd == "drop" and len(user_input) > 1:
                 item_name = ' '.join(user_input[1:]).title()
@@ -408,6 +405,11 @@ while game_running:
     #prevents this from running if you exit the inventory
     elif command == "exit":
        continue  # exit from inventory sub-loop - skip unknown command message
+
+    elif command == "use":
+       continue  # exit from inventory sub-loop - skip unknown command message
+
     # If the command is an Unknown command
     else:
-        print("I don't understand that command.")
+        if not game_running:
+            print("I don't understand that command.")

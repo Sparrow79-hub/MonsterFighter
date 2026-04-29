@@ -1,47 +1,43 @@
-# TODO: Add more effect types later under use_item (mana, strength boost, poison, etc.)
+# TODO: Add more effect types later under use_item (mana, defense boost, strength boost, poison, etc.)
 import item_dict
 
 # test player class
 class Player:
-    def __init__(self, name, health, damage, defence, **item_equip):
+    def __init__(self, name, health, damage, defense, **item_equip):
         self.name = name
         self.hp = health
         self.dmg = damage
-        self.defence = defence
+        self.defense = defense
         self.__dict__.update(item_equip)
 
     def update_stats_from_equipment(self):
-        """Recalculate DMG and DEF based on what is currently equipped.
+        self.dmg = 1  # base
+        self.defense = 0  # base
 
-        WHY: So that equipping a sword actually increases your damage.
-        This runs every time you equip or unequip something.
-        """
-        # Reset to base stats first (prevents old bonuses from staying)
-        self.dmg = 1        # your starting base damage
-        self.defence = 0    # your starting base defense
-
-        # Loop through every equipped slot
         for slot, item_id in player_inv.items():
             if item_id is None:
-                continue  # nothing equipped here
-
+                continue
             item_obj = item_dict.get_item(item_id)
             if item_obj is None:
                 continue
 
-            # Add weapon damage
             if hasattr(item_obj, 'attack'):
                 self.dmg += item_obj.attack
-                # This should allow the handling of special effects
-                if hasattr(item_obj, 'name') and hasattr(item_obj, 'damage'):
-                    print(f"Special effect active: {item_obj.name} (+{item_obj.damage} dmg)")
-                    self.dmg += item_obj.damage  # this should add the fire damage to torch.
 
-            # Add armor defense
             if hasattr(item_obj, 'defense'):
-                self.defence += item_obj.defense
+                self.defense += item_obj.defense
 
-        print(f"   → Stats updated | DMG: {self.dmg} | DEF: {self.defence}")  # temporary debug line
+            # Special effects (Torch, etc.)
+            if hasattr(item_obj, 'damage'):
+                self.dmg += item_obj.damage
+
+        print(f"   → Stats updated | DMG: {self.dmg} | DEF: {self.defense}")  # temporary debug line
+
+    def take_damage(self, amount):
+        self.hp -= amount
+        if self.hp <= 0:
+            self.hp = 0
+
     def gain_exp(self, amount):
         """Gain experience - placeholder for leveling system"""
         print(f"You gained {amount} XP!")
@@ -160,16 +156,6 @@ def show_equipped():
         print(f"    {slot.capitalize():<12}: {display_name}")
     print("  ────────────────────────────")
 
-    def inspect_item(item_name):
-        # """Show details about an item from backpack or equipped."""
-        item_obj = item_dict.get_item(item_name)
-        if item_obj:
-            print(f"\n=== Inspecting: {item_name} ===")
-            for attr, value in vars(item_obj).items():
-                if not attr.startswith('_'):
-                    print(f"  {attr}: {value}")
-        else:
-            print(f"Could not find item '{item_name}'.")
 
 # NEW FUNCTION: inspect_item()
 # Allows player to see full details of any item (attack, defense, etc.)
@@ -187,12 +173,6 @@ def inspect_item(item_name):
                 print(f"  {attr}: {value}")
     else:
         print(f"Could not find item '{item_name}'. Try using the exact name shown in your backpack.")
-
-
-def take_damage(self, amount):
-    self.hp -= amount
-    if self.hp <= 0:
-        self.hp = 0
 
 
 def use_item(item_name, player_obj):
@@ -218,6 +198,17 @@ def use_item(item_name, player_obj):
         player_obj.hp += item_obj.hp
         print(f"You used {item_name} and healed for {item_obj.hp} HP!")
         print(f"Current HP: {player_obj.hp}")
+
+    if hasattr(item_obj, 'attack_bonus') and item_obj.attack_bonus > 0:
+        player_obj.dmg += item_obj.attack_bonus
+        print(f"You used {item_name} and increased your damage for {item_obj.attack_bonus}!")
+        print(f"Current Damage: {player_obj.dmg}")
+
+    if hasattr(item_obj, 'def_bonus') and item_obj.def_bonus > 0:
+        player_obj.defense += item_obj.def_bonus
+        print(f"You used {item_name} and increased your defense for {item_obj.def_bonus}!")
+        print(f"Current Defense: {player_obj.defense}")
+
 
     # Remove from backpack after use
     if item_name in backpack:

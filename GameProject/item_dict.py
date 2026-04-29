@@ -58,7 +58,7 @@ effect_1 = {"name": "Lesser heal", "hp": 25}
 effect_2 = {"name": "heal", "hp": 50}
 effect_3 = {"name": "greater heal", "hp": 75}
 effect_4 = {"name": "Max heal", "hp": 100}
-effect_5 = {"name": "Mana Restore", "mana": 40}
+effect_5 = {"name": "Defense Boost", "def_bonus": 8, "duration": 5}
 effect_6 = {"name": "Strength Boost", "attack_bonus": 8, "duration": 5}
 effect_7 = {"name": "Poison", "damage": 8, "duration": 3}
 effect_8 = {"name": "Poison", "damage": 3}
@@ -79,7 +79,7 @@ item5 = Consumables("Weak Health Potion", **effect_1)
 item11 = Consumables("Health Potion", **effect_2)
 item12 = Consumables("Greater Health Potion", **effect_3)
 item13 = Consumables("Max Health Potion", **effect_4)
-item22 = Consumables("Mana Potion", **effect_5)
+item22 = Consumables("Shield Potion", **effect_5)
 item23 = Consumables("Strength Elixir", **effect_6)
 item24 = Consumables("Poison Vial", **effect_7)
 item36 = Consumables("Teeth", **effect_8)
@@ -124,7 +124,7 @@ ITEMS = {
     "Health Potion": item11,
     "Greater Health Potion": item12,
     "Max Health Potion": item13,
-    "Mana Potion": item22,
+    "Shield Potion": item22,
     "Strength Elixir": item23,
     "Poison Vial": item24,
     "Teeth": item36,

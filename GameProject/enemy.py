@@ -1,11 +1,11 @@
 import copy
 
 class Enemy:
-    def __init__(self, name, description, health, defence, speed, attack, weapon, armor, items, xp_reward=10, loot_chance=0.3):
+    def __init__(self, name, description, health, defense, speed, attack, weapon, armor, items, xp_reward=10, loot_chance=0.3):
         self.name = name
         self.description = description
         self.health = health
-        self.defence = defence
+        self.defense = defense
         self.speed = speed
         self.attack = attack
         self.weapon = weapon
@@ -16,14 +16,14 @@ class Enemy:
 
     def get_status(self):
         """Returns a short status string for combat display"""
-        return f"{self.name} | HP: {self.health} | ATK: {self.attack} | DEF: {self.defence}| ITEMS: {self.weapon, self.armor, self.items} | XP: {self.xp_reward}"
+        return f"{self.name} | HP: {self.health} | ATK: {self.attack} | DEF: {self.defense}| ITEMS: {self.weapon, self.armor, self.items} | XP: {self.xp_reward}"
 
 
 Skeleton = Enemy(
     name="Skeleton",
     description="A lifeless walking skeleton",
     health=35,
-    defence=0,
+    defense=0,
     speed=10,
     attack=5,
     weapon="Wooden Bow",
@@ -36,12 +36,12 @@ Zombie = Enemy(
     name="Zombie",
     description="A reanimated decomposing human corpse",
     health=45,
-    defence=8,
+    defense=8,
     speed=15,
     attack=15,
     weapon="Hands",
     armor="Cloth Sack",
-    items=["Mana Potion"],
+    items=["Shield Potion", "Greater Health Potion"],
     xp_reward=15,
     loot_chance=0.95
 )
@@ -49,7 +49,7 @@ Armored_Zombie = Enemy(
     name="Armored Zombie",
     description="A reanimated decomposing human corpse in armor!",
     health=75,
-    defence=30,
+    defense=30,
     speed=10,
     attack=29,
     weapon="Iron Sword",
@@ -62,9 +62,9 @@ Rabid_Dog = Enemy(
     name="Rabid Dog",
     description="A vicious massive dog with rabies!",
     health=35,
-    defence=3,
+    defense=3,
     speed=25,
-    attack=19,
+    attack=9,
     weapon="Teeth",
     armor= "",
     items=["Weak Health Potion", "Basic Clothes"],
@@ -75,7 +75,7 @@ Goblin = Enemy(
     name="Goblin",
     description="A sneaky green creature with a rusty dagger",
     health=25,
-    defence=1,
+    defense=1,
     speed=14,
     attack=6,
     weapon="Steel Dagger",
@@ -89,12 +89,12 @@ Wolf = Enemy(
     name="Dire Wolf",
     description="A large feral wolf with glowing eyes",
     health=30,
-    defence=3,
+    defense=3,
     speed=18,
     attack=8,
     weapon="Teeth",
     armor="",
-    items=["Mana Potion", "Strength Elixir"],
+    items=["Shield Potion", "Strength Elixir", "Weak Health Potion"],
     xp_reward=18,
     loot_chance=0.98
 )
@@ -103,7 +103,7 @@ Bandit = Enemy(
     name="Bandit",
     description="A ragged highwayman looking for an easy target",
     health=45,
-    defence=4,
+    defense=4,
     speed=12,
     attack=9,
     weapon="Iron Sword",
