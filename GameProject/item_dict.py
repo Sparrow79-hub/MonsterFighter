@@ -50,38 +50,90 @@ class Holdables(Items):
 # all special abilities
 special_1 = {"name": "heavy_slash", "damage": 15}
 special_2 = {"name": "fire_dmg", "damage": 4}
+special_3 = {"name": "Fire Slash", "damage": 6}
 
 # all potion effects
 effect_1 = {"name": "Lesser heal", "hp": 25}
+effect_2 = {"name": "heal", "hp": 50}
+effect_3 = {"name": "greater heal", "hp": 75}
+effect_4 = {"name": "Max heal", "hp": 100}
+effect_5 = {"name": "Mana Restore", "mana": 40}
+effect_6 = {"name": "Strength Boost", "attack_bonus": 8, "duration": 5}
+effect_7 = {"name": "Poison", "damage_over_time": 4, "duration": 3}
 
 # all weapons
 item1 = Melee("Basic Sword", 5, 1)
 item2 = Melee("Iron Greatsword", 15, 2, **special_1)
 item3 = Ranged("Wooden Bow", 2, 1)
 item4 = Melee("Torch", 1, 3,**special_2)
+item18 = Melee("Iron Sword", 8, 1)
+item19 = Melee("Steel Dagger", 6, 2, crit_chance=0.15)
+item20 = Ranged("Hunter's Bow", 7, 1)
+item21 = Melee("Flame Sword", 12, 1, **special_3)
 
 # all consumables
 item5 = Consumables("Weak Health Potion", **effect_1)
+item11 = Consumables("Health Potion", **effect_2)
+item12 = Consumables("Greater Health Potion", **effect_3)
+item13 = Consumables("Max Health Potion", **effect_4)
+item22 = Consumables("Mana Potion", **effect_5)
+item23 = Consumables("Strength Elixir", **effect_6)
+item24 = Consumables("Poison Vial", **effect_7)
 
 ## all armor
-item6 = Armor("Shield", 3, equip_slot="left hand")
+item6 = Armor("Wooden Shield", 3, equip_slot="left hand")
 item7 = Armor("Rusty Helm", 2, equip_slot="head")
 item8 = Armor("Worn Boots", 1, equip_slot="feet")
-item9 = Armor("Cloth Sack", 2, equip_slot="armor")
+item9 = Armor("Cloth Sack", 1, equip_slot="armor")
 item10 = Armor("Leather Armor", 8, equip_slot="armor")
+item14 = Armor("Chainmail", 8, equip_slot="armor")
+item15 = Armor("Basic Clothes", 8, equip_slot="armor")
+item16 = Armor("Bone Armor", 8, equip_slot="armor")
+item17 = Armor("Slate Armor", 8, equip_slot="armor")
+item25 = Armor("Iron Armor", 8, equip_slot="armor")
+item26 = Armor("Diamond Armor", 8, equip_slot="armor")
+item27 = Armor("Cloth Shoes", 8, equip_slot="armor")
+item28 = Armor("Leather Boots", 8, equip_slot="armor")
+item29 = Armor("Diamond Boots", 8, equip_slot="armor")
+
 
 # all items dictionary - ADD THIS LINE
 ITEMS = {
-    "Basic sword": item1,
+    # ====================== WEAPONS ======================
+    "Basic Sword": item1,
     "Iron Greatsword": item2,
     "Wooden Bow": item3,
     "Torch": item4,
-    "Health Potion": item5,
-    "Shield": item6,
+    "Iron Sword": item18,
+    "Steel Dagger": item19,
+    "Hunter's Bow": item20,
+    "Flame Sword": item21,
+
+    # ====================== CONSUMABLES ======================
+    "Weak Health Potion": item5,
+    "Health Potion": item11,
+    "Greater Health Potion": item12,
+    "Max Health Potion": item13,
+    "Mana Potion": item22,
+    "Strength Elixir": item23,
+    "Poison Vial": item24,
+
+    # ====================== ARMOR ======================
+    "Wooden Shield": item6,
     "Rusty Helm": item7,
-    "Feet": item8,
+    "Worn Boots": item8,
     "Cloth Sack": item9,
     "Leather Armor": item10,
+    "Chainmail": item14,
+    "Basic Clothes": item15,
+    "Bone Armor": item16,
+    "Slate Armor": item17,
+    "Iron Armor": item25,
+    "Diamond Armor": item26,
+    "Cloth Shoes": item27,
+    "Leather Boots": item28,
+    "Diamond Boots": item29,
+
 }
 
 def get_item(item_name):

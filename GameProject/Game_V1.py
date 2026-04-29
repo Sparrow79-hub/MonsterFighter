@@ -9,6 +9,7 @@
 import player
 import item_dict
 import world
+import enemy
 P1 = player.Player("TempName", 100, 1, 0)
 
 game_running = True
@@ -96,6 +97,24 @@ def pick_up_item():
     else:
         print("There's nothing here to pick up.")
 
+
+def trigger_random_encounter():
+    """Chance to spawn an enemy when moving or picking up items in dangerous areas."""
+    import random
+
+    # Only 40% chance of encounter (you can adjust this)
+    if random.random() > 0.4:
+        return False  # no encounter
+
+    enemy_obj = enemy.get_random_enemy()
+    if enemy_obj:
+        print("\n" + "=" * 40)
+        print(f"⚔️  A wild {enemy_obj.name} appears!")
+        print(enemy_obj.get_status())
+        print("=" * 40)
+        # TODO: Later we will start combat here instead of just printing
+        return True
+    return False
 
 def player_swing():
     """allows the player the attack the space in front of them if combat is initiated"""
