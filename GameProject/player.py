@@ -52,7 +52,7 @@ backpack = []
 
 def add_to_backpack(item_id):
     #adds an item to the backpack
-    if len(backpack) >= 15:
+    if len(backpack) >= 30:
         print(f'{item_id} cannot be added, backpack is full.')
         return False
     else:
@@ -122,6 +122,13 @@ def equip_item(item_id, player_obj):
         return
 
     slot = item_obj.equip_slot  # e.g. "right hand", "armor", etc.
+
+    if slot == "right hand" and hasattr(item_obj, 'two_handed') and item_obj.two_handed:
+        if player_inv["left hand"] is not None:
+            old_item = player_inv["left hand"]
+            backpack.append(old_item)
+            print(f"↩ Unequipped '{old_item}' from left hand (two-handed weapon)")
+            player_inv["left hand"] = None
 
     # Check if slot exists
     if slot not in player_inv:

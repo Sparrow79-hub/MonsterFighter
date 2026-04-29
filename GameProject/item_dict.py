@@ -60,16 +60,17 @@ effect_3 = {"name": "greater heal", "hp": 75}
 effect_4 = {"name": "Max heal", "hp": 100}
 effect_5 = {"name": "Mana Restore", "mana": 40}
 effect_6 = {"name": "Strength Boost", "attack_bonus": 8, "duration": 5}
-effect_7 = {"name": "Poison", "damage_over_time": 4, "duration": 3}
+effect_7 = {"name": "Poison", "damage": 8, "duration": 3}
+effect_8 = {"name": "Poison", "damage": 3}
 
 # all weapons
 item1 = Melee("Basic Sword", 4, 1)
-item2 = Melee("Iron Greatsword", 15, 2, **special_1)
-item3 = Ranged("Wooden Bow", 2, 1)
+item2 = Melee("Iron Greatsword", 15, 2, two_handed=True, **special_1)
+item3 = Ranged("Wooden Bow", 2, 1, two_handed=True)
 item4 = Melee("Torch", 1, 3,**special_2)
 item18 = Melee("Iron Sword", 8, 1)
 item19 = Melee("Steel Dagger", 6, 2, crit_chance=0.15)
-item20 = Ranged("Hunter's Bow", 7, 1)
+item20 = Ranged("Hunter's Bow", 7, 1, two_handed=True)
 item21 = Melee("Flame Sword", 12, 1, **special_3)
 item35 = Melee("Diamond Sword", 20, 4,**special_4)
 
@@ -81,6 +82,7 @@ item13 = Consumables("Max Health Potion", **effect_4)
 item22 = Consumables("Mana Potion", **effect_5)
 item23 = Consumables("Strength Elixir", **effect_6)
 item24 = Consumables("Poison Vial", **effect_7)
+item36 = Consumables("Teeth", **effect_8)
 
 ## all armor
 item6 = Armor("Wooden Shield", 3, equip_slot="left hand")
@@ -125,6 +127,7 @@ ITEMS = {
     "Mana Potion": item22,
     "Strength Elixir": item23,
     "Poison Vial": item24,
+    "Teeth": item36,
 
     # ====================== ARMOR ======================
     "Wooden Shield": item6,
